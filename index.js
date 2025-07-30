@@ -1,6 +1,10 @@
 import app from "./app.js";
 import "dotenv/config";
 
+import weatherRouter from "./routes/weatherRoutes.js";
+
+app.use(`/api/v1`, weatherRouter);
+
 app.get("/api/v1/test", (req, res) => {
   return res.status(200).json({ msg: `Weather API !` });
 });
