@@ -5,6 +5,10 @@ import { weatherSchema } from "../validation/weatherRouteValidation.js";
 
 const router = express.Router();
 
-router.post(`/weather`, validateSchema(weatherSchema), getWeatherData);
+router.post(
+  `/weather`,
+  validateSchema({schema:weatherSchema}),
+  getWeatherData
+);
 
 export default router;
