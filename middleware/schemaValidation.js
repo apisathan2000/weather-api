@@ -11,8 +11,6 @@ const validateSchema = function ({ schema }) {
      // Validate with Joi options for better error catching
     const { error } = schema.validate(req.body);
 
-    
-
     if (error) {
       console.log(error.details[0].message);
       return res
@@ -24,9 +22,9 @@ const validateSchema = function ({ schema }) {
         });
     }
 
-    // if (!error) {
+ 
       next();
-    // }
+  
   };
 };
 
