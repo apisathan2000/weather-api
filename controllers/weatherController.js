@@ -18,11 +18,13 @@ export const getWeatherData = async function (req, res, next) {
     try {
       const cachedData = await redisClient.get(cacheKey);
 
+      const parsedData = JSON.parse(cachedData);
+
       if (cachedData) {
         return res.status(200).json({
           msg: `Data fetched from cache`,
           cached: true,
-          data: JSON.parse(cachedData),
+          data: parsedData,
         });
       }
     } catch (cacheError) {
@@ -39,20 +41,18 @@ export const getWeatherData = async function (req, res, next) {
       await redisClient.set(cacheKey, JSON.stringify(response.data), {
         expiration: {
           type: "EX",
-          value: 3600,
+          value: 1800,
         },
       });
     } catch (error) {
       console.log(`Cache write error: ${cacheError}`);
     }
 
-    return res
-      .status(200)
-      .json({
-        msg: `Data fetched successfully`,
-        cached: false,
-        data: response.data,
-      });
+    return res.status(200).json({
+      msg: `Data fetched successfully`,
+      cached: false,
+      data: response.data,
+    });
   } catch (error) {
     if (error.response) {
       return res.status(error.response.status).json({
